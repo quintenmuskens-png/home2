@@ -1,1 +1,730 @@
-<div id="root"></div>
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #10131c;
+    color: white;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+}
+
+/* BACKGROUND */
+
+#background {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+        linear-gradient(135deg, rgba(10,15,30,.85), rgba(10,10,20,.95)),
+        url("https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1920")
+        center/cover;
+}
+
+/* LOGIN */
+
+#login {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(10,13,23,.92);
+    backdrop-filter: blur(20px);
+    transition: .4s;
+}
+
+#login.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.login-title {
+    font-size: 30px;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.login-subtitle {
+    color: #9299ad;
+    margin-bottom: 35px;
+}
+
+.pin-container {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 25px;
+}
+
+.pin-digit {
+    width: 60px;
+    height: 65px;
+    border: 2px solid #343b51;
+    background: #1b2030;
+    border-radius: 15px;
+    font-size: 25px;
+    text-align: center;
+    color: white;
+}
+
+.pin-digit:focus {
+    outline: none;
+    border-color: #8195ff;
+}
+
+#pin-error {
+    color: #ff6464;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+.login-button {
+    padding: 14px 40px;
+    border-radius: 12px;
+    background: #7389ff;
+    color: white;
+    font-weight: 700;
+}
+
+/* DASHBOARD */
+
+#dashboard {
+    max-width: 1200px;
+    margin: auto;
+    padding: 35px 25px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+.logo {
+    font-size: 23px;
+    font-weight: 800;
+}
+
+.logo span {
+    color: #8195ff;
+}
+
+.header-info {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    color: #c3c8d8;
+}
+
+.clock {
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.logout {
+    color: white;
+    background: #292f42;
+    padding: 12px 17px;
+    border-radius: 12px;
+}
+
+/* WELCOME */
+
+.welcome {
+    margin-bottom: 30px;
+}
+
+.welcome h1 {
+    font-size: 32px;
+    margin-bottom: 9px;
+}
+
+.welcome p {
+    color: #9da5bb;
+}
+
+/* NAVIGATION */
+
+.navigation {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    margin-bottom: 35px;
+    padding-bottom: 8px;
+}
+
+.nav-item {
+    padding: 12px 22px;
+    border-radius: 12px;
+    color: #aab1c5;
+    background: #202638;
+    white-space: nowrap;
+    transition: .2s;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    color: white;
+    background: #7389ff;
+}
+
+/* SECTIONS */
+
+.section {
+    margin-bottom: 40px;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.section-header i {
+    color: #8195ff;
+    font-size: 19px;
+}
+
+.section-header h2 {
+    font-size: 19px;
+}
+
+/* WEATHER */
+
+.weather-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
+}
+
+.weather-card {
+    background: rgba(32,38,56,.9);
+    padding: 22px 10px;
+    border-radius: 17px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,.05);
+}
+
+.weather-card i {
+    display: block;
+    font-size: 27px;
+    margin: 17px 0;
+    color: #ffcc70;
+}
+
+.weather-card .day {
+    color: #a6aec3;
+    font-size: 12px;
+}
+
+.temperature {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+/* CARDS */
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 17px;
+}
+
+.card {
+    height: 190px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 18px;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    transition: transform .25s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,.85));
+}
+
+.card-content {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+}
+
+.card-content h3 {
+    font-size: 20px;
+    margin-bottom: 6px;
+}
+
+.card-content p {
+    font-size: 12px;
+    color: #d0d0d0;
+}
+
+/* TOOLS */
+
+.tool-card {
+    background: #202638;
+    border-radius: 17px;
+    padding: 25px;
+    min-height: 135px;
+    transition: .2s;
+}
+
+.tool-card:hover {
+    background: #303a59;
+}
+
+.tool-card i {
+    color: #8195ff;
+    font-size: 25px;
+    margin-bottom: 17px;
+}
+
+.tool-card h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.tool-card p {
+    color: #9ba4bb;
+    font-size: 12px;
+}
+
+/* REMINDER */
+
+.reminder {
+    background: rgba(115,137,255,.12);
+    border: 1px solid rgba(115,137,255,.2);
+    padding: 17px 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.reminder i {
+    color: #8195ff;
+    font-size: 21px;
+}
+
+.reminder span {
+    color: #aab1c5;
+    font-size: 13px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 800px) {
+    .weather-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 500px) {
+    #dashboard {
+        padding: 25px 15px;
+    }
+
+    .welcome h1 {
+        font-size: 25px;
+    }
+
+    .weather-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header-info {
+        gap: 12px;
+    }
+
+    .pin-digit {
+        width: 53px;
+        height: 58px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="background"></div>
+
+<!-- LOGIN SCREEN -->
+
+<div id="login">
+
+    <div class="login-title">Welcome Back.</div>
+    <div class="login-subtitle">Enter your PIN to continue</div>
+
+    <div class="pin-container">
+        <input class="pin-digit" maxlength="1" type="password" inputmode="numeric">
+        <input class="pin-digit" maxlength="1" type="password" inputmode="numeric">
+        <input class="pin-digit" maxlength="1" type="password" inputmode="numeric">
+        <input class="pin-digit" maxlength="1" type="password" inputmode="numeric">
+    </div>
+
+    <div id="pin-error"></div>
+
+    <button class="login-button" onclick="login()">
+        Unlock Dashboard
+    </button>
+
+</div>
+
+<!-- MAIN DASHBOARD -->
+
+<main id="dashboard">
+
+    <header>
+
+        <div class="logo">
+            Cloud<span>ly.</span>
+        </div>
+
+        <div class="header-info">
+            <span class="clock" id="clock">00:00</span>
+
+            <button class="logout" onclick="logout()">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </button>
+        </div>
+
+    </header>
+
+    <div class="welcome">
+        <h1>Good morning!</h1>
+        <p>Here's what's happening today.</p>
+    </div>
+
+    <div class="reminder">
+        <i class="fa-solid fa-bell"></i>
+        <div>
+            <strong>Reminder</strong>
+            <br>
+            <span>Extra cool people meeting · 10:00 AM</span>
+        </div>
+    </div>
+
+    <!-- NAVIGATION -->
+
+    <nav class="navigation">
+        <button class="nav-item active" onclick="scrollToSection('weather')">Weather</button>
+        <button class="nav-item" onclick="scrollToSection('food')">Food</button>
+        <button class="nav-item" onclick="scrollToSection('tools')">Apps</button>
+        <button class="nav-item" onclick="scrollToSection('movies')">Movies</button>
+    </nav>
+
+    <!-- WEATHER -->
+
+    <section class="section" id="weather">
+
+        <div class="section-header">
+            <i class="fa-solid fa-cloud-sun"></i>
+            <h2>How's it looking outside?</h2>
+        </div>
+
+        <div class="weather-grid" id="weather-grid"></div>
+
+    </section>
+
+    <!-- FOOD -->
+
+    <section class="section" id="food">
+
+        <div class="section-header">
+            <i class="fa-solid fa-utensils"></i>
+            <h2>Get something delicious!</h2>
+        </div>
+
+        <div class="card-grid">
+
+            <div class="card" style="background-image:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600')">
+                <div class="card-content">
+                    <h3>Burgers</h3>
+                    <p>The best burgers in town</p>
+                </div>
+            </div>
+
+            <div class="card" style="background-image:url('https://images.unsplash.com/photo-1560008581-09826d1de69e?w=600')">
+                <div class="card-content">
+                    <h3>Ice Cream</h3>
+                    <p>Something sweet</p>
+                </div>
+            </div>
+
+            <div class="card" style="background-image:url('https://images.unsplash.com/photo-1579751626657-72bc17010498?w=600')">
+                <div class="card-content">
+                    <h3>Pizza</h3>
+                    <p>Freshly baked pizza</p>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- TOOLS -->
+
+    <section class="section" id="tools">
+
+        <div class="section-header">
+            <i class="fa-solid fa-toolbox"></i>
+            <h2>What's Appening?</h2>
+        </div>
+
+        <div class="card-grid">
+
+            <div class="tool-card">
+                <i class="fa-solid fa-cloud-sun"></i>
+                <h3>Cloudly Weather</h3>
+                <p>Your daily weather forecast</p>
+            </div>
+
+            <div class="tool-card">
+                <i class="fa-solid fa-calculator"></i>
+                <h3>Mathio</h3>
+                <p>Your personal calculator</p>
+            </div>
+
+            <div class="tool-card">
+                <i class="fa-solid fa-wallet"></i>
+                <h3>Cashy</h3>
+                <p>Manage your money</p>
+            </div>
+
+            <div class="tool-card">
+                <i class="fa-solid fa-plane"></i>
+                <h3>Travel</h3>
+                <p>Explore the world</p>
+            </div>
+
+            <div class="tool-card">
+                <i class="fa-solid fa-gamepad"></i>
+                <h3>Games</h3>
+                <p>Time to play</p>
+            </div>
+
+            <div class="tool-card">
+                <i class="fa-solid fa-video"></i>
+                <h3>Video Chat</h3>
+                <p>Connect with friends</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- MOVIES -->
+
+    <section class="section" id="movies">
+
+        <div class="section-header">
+            <i class="fa-solid fa-film"></i>
+            <h2>Popcorn time!</h2>
+        </div>
+
+        <div class="card-grid">
+
+            <div class="card" style="background-image:url('https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=600')">
+                <div class="card-content">
+                    <h3>Space Adventures</h3>
+                    <p>Explore the universe</p>
+                </div>
+            </div>
+
+            <div class="card" style="background-image:url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600')">
+                <div class="card-content">
+                    <h3>Fantasy World</h3>
+                    <p>Enter another world</p>
+                </div>
+            </div>
+
+            <div class="card" style="background-image:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600')">
+                <div class="card-content">
+                    <h3>Adventure</h3>
+                    <p>A journey begins</p>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script>
+
+// SETTINGS
+
+const PIN = "1234";
+
+// LOGIN
+
+const inputs = document.querySelectorAll(".pin-digit");
+
+inputs.forEach((input, index) => {
+
+    input.addEventListener("input", () => {
+
+        input.value = input.value.replace(/\D/g, "");
+
+        if(input.value && index < 3) {
+            inputs[index + 1].focus();
+        }
+
+        if([...inputs].every(i => i.value)) {
+            login();
+        }
+
+    });
+
+    input.addEventListener("keydown", e => {
+        if(e.key === "Backspace" && !input.value && index > 0) {
+            inputs[index - 1].focus();
+        }
+    });
+
+});
+
+function login() {
+
+    const enteredPin = [...inputs].map(i => i.value).join("");
+
+    if(enteredPin === PIN) {
+
+        document.getElementById("login").classList.add("hidden");
+
+    } else {
+
+        document.getElementById("pin-error").textContent =
+            "Incorrect PIN. Try again.";
+
+        inputs.forEach(i => i.value = "");
+
+        inputs[0].focus();
+
+    }
+
+}
+
+function logout() {
+
+    document.getElementById("login").classList.remove("hidden");
+
+    inputs.forEach(i => i.value = "");
+
+    document.getElementById("pin-error").textContent = "";
+
+    inputs[0].focus();
+
+}
+
+// LIVE CLOCK
+
+function updateClock() {
+
+    const now = new Date();
+
+    document.getElementById("clock").textContent =
+        now.toLocaleTimeString("nl-NL", {
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+
+// WEATHER
+
+const weatherDays = [
+    {day:"Mon", temp:72, icon:"fa-sun"},
+    {day:"Tue", temp:75, icon:"fa-sun"},
+    {day:"Wed", temp:68, icon:"fa-cloud"},
+    {day:"Thu", temp:65, icon:"fa-cloud-rain"},
+    {day:"Fri", temp:62, icon:"fa-cloud-bolt"},
+    {day:"Sat", temp:77, icon:"fa-sun"},
+    {day:"Sun", temp:70, icon:"fa-cloud-sun"}
+];
+
+const weatherGrid = document.getElementById("weather-grid");
+
+weatherDays.forEach(day => {
+
+    const card = document.createElement("div");
+
+    card.className = "weather-card";
+
+    card.innerHTML = `
+        <span class="day">${day.day}</span>
+        <i class="fa-solid ${day.icon}"></i>
+        <span class="temperature">${day.temp}°F</span>
+    `;
+
+    weatherGrid.appendChild(card);
+
+});
+
+// NAVIGATION
+
+function scrollToSection(id) {
+
+    document.getElementById(id).scrollIntoView({
+        behavior: "smooth"
+    });
+
+    document.querySelectorAll(".nav-item").forEach(button => {
+        button.classList.remove("active");
+    });
+
+    event.currentTarget.classList.add("active");
+
+}
+
+</script>
+
+</body>
+</html>
