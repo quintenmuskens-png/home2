@@ -30,7 +30,7 @@ button {
     border: none;
 }
 
-/* BACKGROUND */
+/* ACHTERGROND */
 
 #background {
     position: fixed;
@@ -42,7 +42,7 @@ button {
         center/cover;
 }
 
-/* LOGIN */
+/* INLOGSCHERM */
 
 #login {
     position: fixed;
@@ -152,7 +152,7 @@ header {
     border-radius: 12px;
 }
 
-/* WELCOME */
+/* WELKOM */
 
 .welcome {
     margin-bottom: 30px;
@@ -167,7 +167,7 @@ header {
     color: #9da5bb;
 }
 
-/* NAVIGATION */
+/* NAVIGATIE */
 
 .navigation {
     display: flex;
@@ -192,7 +192,7 @@ header {
     background: #7389ff;
 }
 
-/* SECTIONS */
+/* SECTIES */
 
 .section {
     margin-bottom: 40px;
@@ -214,7 +214,7 @@ header {
     font-size: 19px;
 }
 
-/* WEATHER */
+/* WEER */
 
 .weather-grid {
     display: grid;
@@ -247,7 +247,7 @@ header {
     font-weight: 700;
 }
 
-/* CARDS */
+/* KAARTEN */
 
 .card-grid {
     display: grid;
@@ -293,7 +293,7 @@ header {
     color: #d0d0d0;
 }
 
-/* TOOLS */
+/* HULPMIDDELEN */
 
 .tool-card {
     background: #202638;
@@ -323,7 +323,7 @@ header {
     font-size: 12px;
 }
 
-/* REMINDER */
+/* HERINNERING */
 
 .reminder {
     background: rgba(115,137,255,.12);
@@ -346,7 +346,7 @@ header {
     font-size: 13px;
 }
 
-/* RESPONSIVE */
+/* AANPASSING AAN SCHERMGROOTTE */
 
 @media(max-width: 800px) {
     .weather-grid {
@@ -391,12 +391,12 @@ header {
 
 <div id="background"></div>
 
-<!-- LOGIN SCREEN -->
+<!-- INLOGSCHERM -->
 
 <div id="login">
 
-    <div class="login-title">Welcome Back.</div>
-    <div class="login-subtitle">Enter your PIN to continue</div>
+    <div class="login-title">Welkom terug!</div>
+    <div class="login-subtitle">Voer je pincode in om verder te gaan, (2013)</div>
 
     <div class="pin-container">
         <input class="pin-digit" maxlength="1" type="password" inputmode="numeric">
@@ -408,12 +408,12 @@ header {
     <div id="pin-error"></div>
 
     <button class="login-button" onclick="login()">
-        Unlock Dashboard
+        Dashboard openen
     </button>
 
 </div>
 
-<!-- MAIN DASHBOARD -->
+<!-- HOOFDDASHBOARD -->
 
 <main id="dashboard">
 
@@ -426,7 +426,7 @@ header {
         <div class="header-info">
             <span class="clock" id="clock">00:00</span>
 
-            <button class="logout" onclick="logout()">
+            <button class="logout" onclick="logout()" title="Uitloggen">
                 <i class="fa-solid fa-right-from-bracket"></i>
             </button>
         </div>
@@ -434,70 +434,70 @@ header {
     </header>
 
     <div class="welcome">
-        <h1>Good morning!</h1>
-        <p>Here's what's happening today.</p>
+        <h1>Goedemorgen!</h1>
+        <p>Dit is wat er vandaag allemaal gebeurt.</p>
     </div>
 
     <div class="reminder">
         <i class="fa-solid fa-bell"></i>
         <div>
-            <strong>Reminder</strong>
+            <strong>Herinnering</strong>
             <br>
-            <span>Extra cool people meeting · 10:00 AM</span>
+            <span>Uw leven, elke dag</span>
         </div>
     </div>
 
-    <!-- NAVIGATION -->
+    <!-- NAVIGATIE -->
 
     <nav class="navigation">
-        <button class="nav-item active" onclick="scrollToSection('weather')">Weather</button>
-        <button class="nav-item" onclick="scrollToSection('food')">Food</button>
+        <button class="nav-item active" onclick="scrollToSection('weather')">Weer</button>
+        <button class="nav-item" onclick="scrollToSection('food')">Eten</button>
         <button class="nav-item" onclick="scrollToSection('tools')">Apps</button>
-        <button class="nav-item" onclick="scrollToSection('movies')">Movies</button>
+        <button class="nav-item" onclick="scrollToSection('movies')">Films</button>
     </nav>
 
-    <!-- WEATHER -->
+    <!-- WEER -->
 
     <section class="section" id="weather">
 
         <div class="section-header">
             <i class="fa-solid fa-cloud-sun"></i>
-            <h2>How's it looking outside?</h2>
+            <h2>Hoe ziet het weer eruit?</h2>
         </div>
 
         <div class="weather-grid" id="weather-grid"></div>
 
     </section>
 
-    <!-- FOOD -->
+    <!-- ETEN -->
 
     <section class="section" id="food">
 
         <div class="section-header">
             <i class="fa-solid fa-utensils"></i>
-            <h2>Get something delicious!</h2>
+            <h2>Tijd voor iets lekkers!</h2>
         </div>
 
         <div class="card-grid">
 
             <div class="card" style="background-image:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600')">
                 <div class="card-content">
-                    <h3>Burgers</h3>
-                    <p>The best burgers in town</p>
+                    <h3>Hamburgers</h3>
+                    <p>De lekkerste hamburgers uit de buurt</p>
                 </div>
             </div>
 
             <div class="card" style="background-image:url('https://images.unsplash.com/photo-1560008581-09826d1de69e?w=600')">
                 <div class="card-content">
-                    <h3>Ice Cream</h3>
-                    <p>Something sweet</p>
+                    <h3>Roomijs</h3>
+                    <p>Iets lekkers voor tussendoor</p>
                 </div>
             </div>
 
             <div class="card" style="background-image:url('https://images.unsplash.com/photo-1579751626657-72bc17010498?w=600')">
                 <div class="card-content">
                     <h3>Pizza</h3>
-                    <p>Freshly baked pizza</p>
+                    <p>Versgebakken pizza</p>
                 </div>
             </div>
 
@@ -505,86 +505,86 @@ header {
 
     </section>
 
-    <!-- TOOLS -->
+    <!-- APPS EN HULPMIDDELEN -->
 
     <section class="section" id="tools">
 
         <div class="section-header">
             <i class="fa-solid fa-toolbox"></i>
-            <h2>What's Appening?</h2>
+            <h2>Wat is er te ontdekken?</h2>
         </div>
 
         <div class="card-grid">
 
             <div class="tool-card">
                 <i class="fa-solid fa-cloud-sun"></i>
-                <h3>Cloudly Weather</h3>
-                <p>Your daily weather forecast</p>
+                <h3>Cloudly Weer</h3>
+                <p>Jouw dagelijkse weersverwachting</p>
             </div>
 
             <div class="tool-card">
                 <i class="fa-solid fa-calculator"></i>
-                <h3>Mathio</h3>
-                <p>Your personal calculator</p>
+                <h3>Rekenmachine</h3>
+                <p>Jouw persoonlijke rekenmachine</p>
             </div>
 
             <div class="tool-card">
                 <i class="fa-solid fa-wallet"></i>
-                <h3>Cashy</h3>
-                <p>Manage your money</p>
+                <h3>Geldzaken</h3>
+                <p>Beheer je geld en uitgaven</p>
             </div>
 
             <div class="tool-card">
                 <i class="fa-solid fa-plane"></i>
-                <h3>Travel</h3>
-                <p>Explore the world</p>
+                <h3>Reizen</h3>
+                <p>Ontdek de wereld</p>
             </div>
 
             <div class="tool-card">
                 <i class="fa-solid fa-gamepad"></i>
-                <h3>Games</h3>
-                <p>Time to play</p>
+                <h3>Spellen</h3>
+                <p>Tijd om te spelen</p>
             </div>
 
             <div class="tool-card">
                 <i class="fa-solid fa-video"></i>
-                <h3>Video Chat</h3>
-                <p>Connect with friends</p>
+                <h3>Videobellen</h3>
+                <p>Blijf in contact met vrienden</p>
             </div>
 
         </div>
 
     </section>
 
-    <!-- MOVIES -->
+    <!-- FILMS -->
 
     <section class="section" id="movies">
 
         <div class="section-header">
             <i class="fa-solid fa-film"></i>
-            <h2>Popcorn time!</h2>
+            <h2>Tijd voor popcorn!</h2>
         </div>
 
         <div class="card-grid">
 
             <div class="card" style="background-image:url('https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=600')">
                 <div class="card-content">
-                    <h3>Space Adventures</h3>
-                    <p>Explore the universe</p>
+                    <h3>Ruimteavonturen</h3>
+                    <p>Ontdek het heelal</p>
                 </div>
             </div>
 
             <div class="card" style="background-image:url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600')">
                 <div class="card-content">
-                    <h3>Fantasy World</h3>
-                    <p>Enter another world</p>
+                    <h3>Fantasiewereld</h3>
+                    <p>Stap een andere wereld binnen</p>
                 </div>
             </div>
 
             <div class="card" style="background-image:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600')">
                 <div class="card-content">
-                    <h3>Adventure</h3>
-                    <p>A journey begins</p>
+                    <h3>Avontuur</h3>
+                    <p>Een nieuw avontuur begint</p>
                 </div>
             </div>
 
@@ -596,11 +596,11 @@ header {
 
 <script>
 
-// SETTINGS
+// INSTELLINGEN
 
-const PIN = "1234";
+const PIN = "2013";
 
-// LOGIN
+// INLOGGEN
 
 const inputs = document.querySelectorAll(".pin-digit");
 
@@ -639,7 +639,7 @@ function login() {
     } else {
 
         document.getElementById("pin-error").textContent =
-            "Incorrect PIN. Try again.";
+            "Onjuiste pincode. Probeer het opnieuw.";
 
         inputs.forEach(i => i.value = "");
 
@@ -648,6 +648,8 @@ function login() {
     }
 
 }
+
+// UITLOGGEN
 
 function logout() {
 
@@ -661,7 +663,7 @@ function logout() {
 
 }
 
-// LIVE CLOCK
+// LIVE KLOK
 
 function updateClock() {
 
@@ -678,16 +680,16 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-// WEATHER
+// WEERVOORSPELLING
 
 const weatherDays = [
-    {day:"Mon", temp:72, icon:"fa-sun"},
-    {day:"Tue", temp:75, icon:"fa-sun"},
-    {day:"Wed", temp:68, icon:"fa-cloud"},
-    {day:"Thu", temp:65, icon:"fa-cloud-rain"},
-    {day:"Fri", temp:62, icon:"fa-cloud-bolt"},
-    {day:"Sat", temp:77, icon:"fa-sun"},
-    {day:"Sun", temp:70, icon:"fa-cloud-sun"}
+    {day:"Ma", temp:72, icon:"fa-sun"},
+    {day:"Di", temp:75, icon:"fa-sun"},
+    {day:"Wo", temp:68, icon:"fa-cloud"},
+    {day:"Do", temp:65, icon:"fa-cloud-rain"},
+    {day:"Vr", temp:62, icon:"fa-cloud-bolt"},
+    {day:"Za", temp:77, icon:"fa-sun"},
+    {day:"Zo", temp:70, icon:"fa-cloud-sun"}
 ];
 
 const weatherGrid = document.getElementById("weather-grid");
@@ -708,7 +710,7 @@ weatherDays.forEach(day => {
 
 });
 
-// NAVIGATION
+// NAVIGATIE
 
 function scrollToSection(id) {
 
