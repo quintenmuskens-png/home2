@@ -30,6 +30,12 @@ button {
     border: none;
 }
 
+/* ACHTERGRONDMUZIEK */
+
+#achtergrondmuziek {
+    display: none;
+}
+
 /* ACHTERGROND */
 
 #background {
@@ -71,6 +77,8 @@ button {
 .login-subtitle {
     color: #9299ad;
     margin-bottom: 35px;
+    text-align: center;
+    padding: 0 15px;
 }
 
 .pin-container {
@@ -346,7 +354,7 @@ header {
     font-size: 13px;
 }
 
-/* AANPASSING AAN SCHERMGROOTTE */
+/* SCHERMGROOTTE */
 
 @media(max-width: 800px) {
     .weather-grid {
@@ -389,6 +397,10 @@ header {
 
 <body>
 
+<!-- MUZIEK -->
+
+<audio id="achtergrondmuziek" src="muziek.mp3" loop preload="auto"></audio>
+
 <div id="background"></div>
 
 <!-- INLOGSCHERM -->
@@ -396,7 +408,11 @@ header {
 <div id="login">
 
     <div class="login-title">Welkom terug!</div>
-    <div class="login-subtitle">Voer je pincode in om verder te gaan, (2013)</div>
+
+    <div class="login-subtitle">
+        Voer je pincode in om verder te gaan,
+        (2013) zet het geluid aan voor de beste ervaring.
+    </div>
 
     <div class="pin-container">
         <input class="pin-digit" maxlength="1" type="password" inputmode="numeric">
@@ -413,7 +429,7 @@ header {
 
 </div>
 
-<!-- HOOFDDASHBOARD -->
+<!-- DASHBOARD -->
 
 <main id="dashboard">
 
@@ -499,7 +515,7 @@ header {
         </div>
     </section>
 
-    <!-- APPS EN HULPMIDDELEN -->
+    <!-- APPS -->
 
     <section class="section" id="tools">
         <div class="section-header">
@@ -590,6 +606,9 @@ header {
 
 const PIN = "2013";
 
+const muziek = document.getElementById("achtergrondmuziek");
+muziek.volume = 0.35;
+
 // PINCODE-INVOER
 
 const inputs = document.querySelectorAll(".pin-digit");
@@ -600,11 +619,11 @@ inputs.forEach((input, index) => {
 
         input.value = input.value.replace(/\D/g, "");
 
-        if(input.value && index < 3) {
+        if (input.value && index < 3) {
             inputs[index + 1].focus();
         }
 
-        if([...inputs].every(i => i.value)) {
+        if ([...inputs].every(i => i.value)) {
             login();
         }
 
@@ -612,7 +631,7 @@ inputs.forEach((input, index) => {
 
     input.addEventListener("keydown", e => {
 
-        if(e.key === "Backspace" && !input.value && index > 0) {
+        if (e.key === "Backspace" && !input.value && index > 0) {
             inputs[index - 1].focus();
         }
 
@@ -620,25 +639,37 @@ inputs.forEach((input, index) => {
 
 });
 
-// INLOGGEN + VOLLEDIG SCHERM
+// INLOGGEN
 
-function login() {
+async function login() {
 
     const enteredPin = [...inputs].map(i => i.value).join("");
 
-    if(enteredPin === PIN) {
+    if (enteredPin === PIN) {
 
-        // Volledig scherm aanvragen na correcte pincode
+        // Muziek starten
+        try {
+            muziek.currentTime = 0;
+            await muziek.play();
+        } catch (error) {
+            console.log("Muziek kon niet starten:", error);
+            document.getElementById("pin-error").textContent =
+                "Dashboard geopend, maar muziek kon niet starten. Controleer muziek.mp3 en je geluidsinstellingen.";
+        }
+
+        // Volledig scherm
         if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen().catch(error => {
+            document.documentElement.requestFullscreen?.().catch(error => {
                 console.log("Fullscreen niet beschikbaar:", error);
             });
         }
 
-        // Verberg het inlogscherm
+        // Inlogscherm verbergen
         document.getElementById("login").classList.add("hidden");
 
-        document.getElementById("pin-error").textContent = "";
+        if (!muziek.paused) {
+            document.getElementById("pin-error").textContent = "";
+        }
 
     } else {
 
@@ -657,13 +688,28 @@ function login() {
 
 function logout() {
 
+    // Muziek onmiddellijk stoppen
+    muziek.pause();
+
+    // Muziek terug naar begin
+    muziek.currentTime = 0;
+
+    // Inlogscherm opnieuw tonen
     document.getElementById("login").classList.remove("hidden");
 
+    // Pincodevelden leegmaken
     inputs.forEach(i => i.value = "");
 
     document.getElementById("pin-error").textContent = "";
 
     inputs[0].focus();
+
+    // Volledig scherm verlaten
+    if (document.fullscreenElement) {
+        document.exitFullscreen?.().catch(error => {
+            console.log("Fullscreen verlaten mislukt:", error);
+        });
+    }
 
 }
 
