@@ -639,65 +639,60 @@ inputs.forEach((input, index) => {
 
 });
 
-// INLOGGEN
 
-async function login() {
+ // INLOGGEN
+
+function login() {
 
     const enteredPin = [...inputs].map(i => i.value).join("");
 
-    if (enteredPin === PIN) {
-
-        // Muziek starten
-        try {
-            muziek.currentTime = 0;
-            await muziek.play();
-        } catch (error) {
-            console.log("Muziek kon niet starten:", error);
-            document.getElementById("pin-error").textContent =
-                "Dashboard geopend, maar muziek kon niet starten. Controleer muziek.mp3 en je geluidsinstellingen.";
-        }
-
-        // Volledig scherm
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen?.().catch(error => {
-                console.log("Fullscreen niet beschikbaar:", error);
-            });
-        }
-
-        // Inlogscherm verbergen
-        document.getElementById("login").classList.add("hidden");
-
-        if (!muziek.paused) {
-            document.getElementById("pin-error").textContent = "";
-        }
-
-    } else {
+    if (enteredPin !== PIN) {
 
         document.getElementById("pin-error").textContent =
-            "Onjuiste pincode. Probeer het opnieuw.";
+            "Onjuiste pincode. Probeer opnieuw.";
 
         inputs.forEach(i => i.value = "");
-
         inputs[0].focus();
 
+        return;
     }
 
+    // Muziek starten
+    muziek.volume = 0.35;
+    muziek.currentTime = 0;
+
+    const playPromise = muziek.play();
+
+    if (playPromise) {
+        playPromise.catch(error => {
+            console.error("Muziekfout:", error);
+
+            document.getElementById("pin-error").textContent =
+                "Muziek kon niet starten. Controleer het MP3-bestand.";
+        });
+    }
+
+    // Dashboard openen
+    document.getElementById("login").classList.add("hidden");
+
+    // Volledig scherm
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen?.().catch(() => {});
+    }
 }
 
 // UITLOGGEN
 
 function logout() {
 
-    // Muziek onmiddellijk stoppen
+    // Muziek stoppen
     muziek.pause();
-
-    // Muziek terug naar begin
     muziek.currentTime = 0;
 
-    // Inlogscherm opnieuw tonen
+    // Inlogscherm tonen
     document.getElementById("login").classList.remove("hidden");
 
-    // Pincodevelden leegmaken
+    // Pincode wissen
     inputs.forEach(i => i.value = "");
 
     document.getElementById("pin-error").textContent = "";
@@ -706,12 +701,11 @@ function logout() {
 
     // Volledig scherm verlaten
     if (document.fullscreenElement) {
-        document.exitFullscreen?.().catch(error => {
-            console.log("Fullscreen verlaten mislukt:", error);
-        });
+        document.exitFullscreen?.().catch(() => {});
     }
 
 }
+
 
 // LIVE KLOK
 
